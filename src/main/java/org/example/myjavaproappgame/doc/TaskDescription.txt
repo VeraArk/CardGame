@@ -8,18 +8,8 @@ Entity:
 Card
 Student
 Game
-
-Методы
-
--saveCard;
--deleteCard;
--findCardByTopic;
--findByDifficultyLevel;
-
--addStudent;
--findAllStudents;
--findStudentByLevel;
--findStudentByUsername;
+Result
+ENUM ResultStatus
 
 
 ===================
@@ -28,8 +18,9 @@ Students
 
     Long id;
     String name;
-    String username;
+    String email;
     String password;
+    String level;
 
 
 Card
@@ -48,6 +39,14 @@ Game
        Integer score;
        List<Card> cards;
        Long studentId;
+
+Result
+
+        Long id;
+
+        Integer numbersOfCards;
+        Integer numbersOfRightAnswer;
+        ResultStatus status;
 
 
 ==================
@@ -106,6 +105,3 @@ GameResponseDto
 ==================
 API
 
-public StudentsCreateResponseDto createNewStudent (StudentsCreateRequestDto dto)
-
-public List<StudentsCreateResponseDto> findAllStudents()
