@@ -1,0 +1,111 @@
+Проект «Карточная игра для изучающих иностранный язык». Пользователь может создавать, просматривать и удалять
+карточки для изучения иностранных слов.
+Каждая карточка будет содержать слово на изучаемом языке и его перевод.
+
+
+Entity:
+
+Card
+Student
+Game
+
+Методы
+
+-saveCard;
+-deleteCard;
+-findCardByTopic;
+-findByDifficultyLevel;
+
+-addStudent;
+-findAllStudents;
+-findStudentByLevel;
+-findStudentByUsername;
+
+
+===================
+
+Students
+
+    Long id;
+    String name;
+    String username;
+    String password;
+
+
+Card
+
+      Long id;
+      String question;
+      String answer;
+      String topic;
+      String difficultyLevel;
+
+Game
+
+       Long id;
+       LocalDateTime startTime;
+       LocalDateTime endTime;
+       Integer score;
+       List<Card> cards;
+       Long studentId;
+
+
+==================
+DTO
+
+Students
+
+-StudentsCreateRequestDto
+        String username;
+        String password;
+
+
+-StudentsCreateResponseDto
+
+          Long id;
+          String username;
+
+Card
+
+-CardCreateRequestDto
+      String question;
+      String answer;
+      String topic;
+
+
+-CardCreateResponseDto
+      Long id;
+      String question;
+      String answer;
+      String topic;
+
+
+-CardResponseDto
+      String question;
+      String answer;
+
+Game
+
+-GameCreateRequestDto
+    Long studentId;
+    List<CardDTO> cards;
+
+-GameCreateResponseDto
+    Long id;
+    LocalDateTime startTime;
+    LocalDateTime endTime;
+    Integer score;
+    Student student;
+    List<CardDTO> cards;
+
+GameResponseDto
+    Long id;
+    Integer score;
+    Student student;
+
+==================
+API
+
+public StudentsCreateResponseDto createNewStudent (StudentsCreateRequestDto dto)
+
+public List<StudentsCreateResponseDto> findAllStudents()
