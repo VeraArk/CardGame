@@ -17,7 +17,7 @@ public class Card {
 
     private String question;
     private String answer;
-    private String topic;
+    private String level;
 
     @ManyToOne
     @JoinColumn(name = "game_id")

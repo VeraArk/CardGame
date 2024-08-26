@@ -8,6 +8,8 @@ import org.example.myjavaproappgame.dto.studentDto.StudentCreateResponseDto;
 import org.example.myjavaproappgame.dto.studentDto.StudentResponseDto;
 import org.example.myjavaproappgame.entity.Student;
 import org.example.myjavaproappgame.repository.StudentRepository;
+import org.example.myjavaproappgame.service.exception.AlreadyExistException;
+import org.example.myjavaproappgame.service.exception.NotFoundException;
 import org.example.myjavaproappgame.service.util.StudentConverter;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,7 @@ public class StudentServiсe {
     private final StudentConverter converter;
 
     public StudentCreateResponseDto createStudent(StudentCreateRequestDto request) {
+
         if (repository.findByEmail(request.getEmail()).isEmpty()) {
             Student newStudent = converter.fromDto(request);
 
@@ -31,7 +34,7 @@ public class StudentServiсe {
             return converter.toCreateDto(savedStudent);
 
         } else {
-            throw new RuntimeException("This student " + request.getName() + " is already exist");
+            throw new AlreadyExistException("This student " + request.getName() + " is already exist");
         }
     }
 
@@ -42,14 +45,16 @@ public class StudentServiсe {
         return list;
     }
 
-    public List<StudentResponseDto> findByLevel(String level) {
-        List<StudentResponseDto> students = repository.findByLevel(level).stream()
-                .map(converter::toDto)
-                .collect(Collectors.toList());
-        if (students.isEmpty()) {
-            System.out.println("No students found by the level: " + level);
-        }
-        return students;
+    public List<StudentResponseDto> findByLevel(String level){
+            List<StudentResponseDto> students = repository.findByLevel(level).stream()
+                    .map(converter::toDto)
+                    .collect(Collectors.toList());
+            if (!students.isEmpty()) {
+                return students;
+            }
+            else{
+                throw new NotFoundException("No students found by the level: " + level);
+            }
     }
 
 }

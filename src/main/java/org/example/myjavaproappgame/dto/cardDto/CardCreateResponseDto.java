@@ -11,7 +11,7 @@ public class CardCreateResponseDto {
     private Long id;
     private String question;
     private String answer;
-    private String topic;
+    private String level;
 
 
 }

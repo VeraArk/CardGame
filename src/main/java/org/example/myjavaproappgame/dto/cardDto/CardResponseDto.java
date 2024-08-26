@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class CardResponseDto {
     private String question;
     private String answer;
-    private String topic;
+    private String level;
 }

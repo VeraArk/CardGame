@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- добавляем наши изменения -->
+
+    <changeSet id="create.table.cards" author="author1">
+        <createTable tableName="cards">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="question" type="VARCHAR (255)" />
+            <column name="answer" type="VARCHAR (255)" />
+            <column name="level" type="VARCHAR (255)" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create.table.students" author="author1">
+        <createTable tableName="students">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR (255)" />
+
+            <column name="email" type="VARCHAR (255)" />
+
+            <column name="password" type="VARCHAR (255)" />
+
+            <column name="level" type="VARCHAR (255)" />
+        </createTable>
+    </changeSet>
+
+    <!-- внесем первоначальные данные в таблицы -->
+
+    <changeSet id="insert.default.data.cards" author="admin">
+        <insert tableName="cards">
+            <column name="question" value="dog" />
+            <column name="answer" value="собака" />
+            <column name="level" value="A1" />
+        </insert>
+    </changeSet>
+
+
+    <changeSet id="insert.default.data.students" author="admin">
+        <insert tableName="students">
+            <column name="name" value="Valerij" />
+            <column name="email" value="student@uni.com" />
+            <column name="password" value="pass123" />
+            <column name="level" value="A1" />
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

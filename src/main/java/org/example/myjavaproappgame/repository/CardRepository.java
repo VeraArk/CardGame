@@ -11,6 +11,6 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 
     Optional<Card> findByQuestion(String question);
 
-    List<Card> findByTopic(String topic);
+    List<Card> findByLevel(String level);
 
 }

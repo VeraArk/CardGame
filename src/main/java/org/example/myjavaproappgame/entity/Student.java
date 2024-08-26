@@ -28,5 +28,5 @@ public class Student {
     private List <Card> cards;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List <Result> result;
+    private List<Result> result;
 }

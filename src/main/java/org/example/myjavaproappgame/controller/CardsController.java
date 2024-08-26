@@ -5,6 +5,8 @@ import org.example.myjavaproappgame.dto.cardDto.CardCreateRequestDto;
 import org.example.myjavaproappgame.dto.cardDto.CardCreateResponseDto;
 import org.example.myjavaproappgame.dto.cardDto.CardResponseDto;
 import org.example.myjavaproappgame.service.CardServiсe;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,20 +18,20 @@ public class CardsController {
     private final CardServiсe service;
 
     @PostMapping
-    public CardCreateResponseDto createNewCard(@RequestBody CardCreateRequestDto request) {
-        return service.createCard(request);
+    public ResponseEntity<CardCreateResponseDto> createNewCard(@RequestBody CardCreateRequestDto request) {
+        return ResponseEntity.ok(service.createCard(request));
     }
 
 
     @GetMapping
-    public List<CardResponseDto> findAll() {
-        return service.findAll();
+    public ResponseEntity<List<CardResponseDto>> findAll() {
+        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
 
     @GetMapping("/findByTopic/{topic}")
-    public List<CardResponseDto> findByTopic(@PathVariable String topic) {
-        return service.findByTopic(topic);
+    public ResponseEntity<List<CardResponseDto>> findByLevel(@PathVariable String level) {
+        return new ResponseEntity<>(service.findByLevel(level), HttpStatus.OK);
     }
 
 }
