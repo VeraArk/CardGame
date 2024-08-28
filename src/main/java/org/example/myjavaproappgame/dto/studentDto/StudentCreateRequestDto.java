@@ -25,4 +25,5 @@ public class StudentCreateRequestDto {
     @NotBlank (message = "Password must be not blank")
     @Size (min =6, message = "Password length must be from 6 character")
     private String password;
+
 }

@@ -1,8 +1,9 @@
 package org.example.myjavaproappgame.controller;
 
+import jakarta.validation.ConstraintViolationException;
 import org.example.myjavaproappgame.service.exception.AlreadyExistException;
 import org.example.myjavaproappgame.service.exception.NotFoundException;
-import org.hibernate.exception.ConstraintViolationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -30,7 +31,7 @@ public class GlobalExeptionHandler {
 
     ///??????????? какой іменно імпортіровать
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String> handlerConstraintViolationException(jakarta.validation.ConstraintViolationException exception){
+    public ResponseEntity<String> handlerConstraintViolationException(ConstraintViolationException exception){
         StringBuilder responseMessage = new StringBuilder();
 
         exception.getConstraintViolations().forEach(
