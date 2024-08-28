@@ -1,8 +1,8 @@
 package org.example.myjavaproappgame.service;
 
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.myjavaproappgame.dto.cardDto.CardResponseDto;
 import org.example.myjavaproappgame.dto.studentDto.StudentCreateRequestDto;
 import org.example.myjavaproappgame.dto.studentDto.StudentCreateResponseDto;
 import org.example.myjavaproappgame.dto.studentDto.StudentResponseDto;
@@ -14,6 +14,7 @@ import org.example.myjavaproappgame.service.util.StudentConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +25,8 @@ public class StudentServiсe {
     private final StudentRepository repository;
     private final StudentConverter converter;
 
+
+    @Transactional
     public StudentCreateResponseDto createStudent(StudentCreateRequestDto request) {
 
         if (repository.findByEmail(request.getEmail()).isEmpty()) {
@@ -45,16 +48,26 @@ public class StudentServiсe {
         return list;
     }
 
-    public List<StudentResponseDto> findByLevel(String level){
-            List<StudentResponseDto> students = repository.findByLevel(level).stream()
-                    .map(converter::toDto)
-                    .collect(Collectors.toList());
-            if (!students.isEmpty()) {
-                return students;
-            }
-            else{
-                throw new NotFoundException("No students found by the level: " + level);
-            }
+    public StudentResponseDto findByEmail(String email) {
+
+        Optional<Student> studentOptional = repository.findByEmail(email);
+        if (studentOptional.isPresent()) {
+            StudentResponseDto responseDto = converter.toDto(studentOptional.get());
+            return responseDto;
+        } else {
+            throw new NotFoundException("Manager with email " + email + " not found");
+        }
+    }
+
+    public List<StudentResponseDto> findByLevel(String level) {
+        List<StudentResponseDto> students = repository.findByLevel(level).stream()
+                .map(converter::toDto)
+                .collect(Collectors.toList());
+        if (!students.isEmpty()) {
+            return students;
+        } else {
+            throw new NotFoundException("No students found by the level: " + level);
+        }
     }
 
 }

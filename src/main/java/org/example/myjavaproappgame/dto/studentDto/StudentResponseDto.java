@@ -12,5 +12,6 @@ import org.springframework.stereotype.Component;
 public class StudentResponseDto {
 
     private String name;
+    private String email;
     private String level;
 }

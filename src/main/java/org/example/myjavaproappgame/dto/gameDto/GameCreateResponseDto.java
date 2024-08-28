@@ -3,8 +3,7 @@ package org.example.myjavaproappgame.dto.gameDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.myjavaproappgame.entity.Result;
-import org.example.myjavaproappgame.entity.Student;
+import org.example.myjavaproappgame.entity.ResultStatus;
 
 import java.time.LocalDateTime;
 
@@ -13,9 +12,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GameCreateResponseDto {
+
     private Long id;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private String studentName;
-    private String resultStatus;
+    private Integer numbersOfCards;
+    private Integer numbersOfRightAnswer;
+    private ResultStatus status;
+
 }

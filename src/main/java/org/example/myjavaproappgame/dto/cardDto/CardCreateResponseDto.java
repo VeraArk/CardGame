@@ -12,6 +12,5 @@ public class CardCreateResponseDto {
     private String question;
     private String answer;
     private String level;
-
-
+    private String topic;
 }

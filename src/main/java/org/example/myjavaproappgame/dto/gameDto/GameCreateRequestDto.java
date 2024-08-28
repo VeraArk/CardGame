@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GameCreateRequestDto {
-    private String studentName;
-    List<Card> cards;
+
+    private Integer numbersOfCards;
+
 }

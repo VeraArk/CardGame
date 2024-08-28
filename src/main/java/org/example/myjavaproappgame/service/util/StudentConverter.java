@@ -21,7 +21,7 @@ public class StudentConverter {
     }
 
     public StudentResponseDto toDto (Student student){
-        return new StudentResponseDto(student.getName(), student.getLevel());
+        return new StudentResponseDto(student.getName(), student.getEmail(), student.getLevel());
     }
 }
 

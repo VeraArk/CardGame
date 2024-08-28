@@ -13,15 +13,16 @@ public class CardConverter {
         card.setQuestion(dto.getQuestion());
         card.setAnswer(dto.getAnswer());
         card.setLevel(dto.getLevel());
+        card.setTopic(dto.getTopic());
         return card;
     }
 
     public CardCreateResponseDto toCreateDto (Card card){
-        return new CardCreateResponseDto(card.getId(), card.getQuestion(), card.getAnswer(), card.getLevel());
+        return new CardCreateResponseDto(card.getId(), card.getQuestion(), card.getAnswer(), card.getLevel(), card.getTopic());
     }
 
     public CardResponseDto toDto (Card card){
-        return new CardResponseDto(card.getQuestion(), card.getAnswer(), card.getLevel());
+        return new CardResponseDto(card.getId(), card.getAnswer());
     }
 
 }

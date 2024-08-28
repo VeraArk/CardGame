@@ -1,5 +1,6 @@
 package org.example.myjavaproappgame.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.myjavaproappgame.dto.cardDto.CardCreateRequestDto;
 import org.example.myjavaproappgame.dto.cardDto.CardCreateResponseDto;
@@ -18,10 +19,9 @@ public class CardsController {
     private final CardServiсe service;
 
     @PostMapping
-    public ResponseEntity<CardCreateResponseDto> createNewCard(@RequestBody CardCreateRequestDto request) {
+    public ResponseEntity<CardCreateResponseDto> createNewCard(@Valid @RequestBody CardCreateRequestDto request) {
         return ResponseEntity.ok(service.createCard(request));
     }
-
 
     @GetMapping
     public ResponseEntity<List<CardResponseDto>> findAll() {
@@ -29,9 +29,14 @@ public class CardsController {
     }
 
 
-    @GetMapping("/findByTopic/{topic}")
+    @GetMapping("/findByLevel/{level}")
     public ResponseEntity<List<CardResponseDto>> findByLevel(@PathVariable String level) {
         return new ResponseEntity<>(service.findByLevel(level), HttpStatus.OK);
+    }
+
+    @GetMapping("/findByTopic/{topic}")
+    public ResponseEntity<List<CardResponseDto>> findByTopic(@PathVariable String topic) {
+        return new ResponseEntity<>(service.findByTopic(topic), HttpStatus.OK);
     }
 
 }

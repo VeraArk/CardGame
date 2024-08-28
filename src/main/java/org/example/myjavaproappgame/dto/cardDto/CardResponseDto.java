@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CardResponseDto {
-    private String question;
+    private Long id;
     private String answer;
-    private String level;
+
 }

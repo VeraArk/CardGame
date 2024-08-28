@@ -1,5 +1,6 @@
 package org.example.myjavaproappgame.service;
 
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.myjavaproappgame.dto.cardDto.CardCreateRequestDto;
@@ -23,6 +24,7 @@ public class CardServiсe {
     private final CardRepository repository;
     private final CardConverter converter;
 
+    @Transactional
     public CardCreateResponseDto createCard(CardCreateRequestDto request) {
         if (repository.findByQuestion(request.getQuestion()).isEmpty()) {
             Card newCard = converter.fromDto(request);
@@ -53,6 +55,17 @@ public class CardServiсe {
             return cards;
         } else {
             throw new NotFoundException("No cards found with the topic: " + level);
+        }
+    }
+
+    public List<CardResponseDto> findByTopic(String topic) {
+        List<CardResponseDto> cards = repository.findByTopic(topic).stream()
+                .map(converter::toDto)
+                .collect(Collectors.toList());
+        if (!cards.isEmpty()) {
+            return cards;
+        } else {
+            throw new NotFoundException("No cards found with the topic: " + topic);
         }
     }
 }

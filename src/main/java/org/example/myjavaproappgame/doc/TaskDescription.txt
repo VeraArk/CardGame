@@ -33,7 +33,6 @@ Entity:
 Card
 Student
 Game
-Result
 ENUM ResultStatus
 
 
@@ -59,73 +58,60 @@ Card
 Game
 
        Long id;
-       LocalDateTime startTime;
-       LocalDateTime endTime;
-       Integer score;
-       List<Card> cards;
-       Long studentId;
 
-Result
-
-        Long id;
-
-        Integer numbersOfCards;
-        Integer numbersOfRightAnswer;
-        ResultStatus status;
+       private Integer numbersOfCards;
+       private Integer numbersOfRightAnswer;
+       private ResultStatus status;
 
 
 ==================
-DTO
 
-Students
+API
+ PUT CARD
 
--StudentsCreateRequestDto
-        String username;
-        String password;
+  CardCreateRequestDto
 
-
--StudentsCreateResponseDto
-
-          Long id;
-          String username;
-
-Card
-
--CardCreateRequestDto
-      String question;
-      String answer;
-      String topic;
+     private String question;
+     private String answer;
+     private String level;
+     private String topic;
 
 
--CardCreateResponseDto
-      Long id;
-      String question;
-      String answer;
-      String topic;
 
+  CardCreateResponseDto
 
--CardResponseDto
-      String question;
-      String answer;
+    private Long id;
+    private String question;
+    private String answer;
+    private String level;
+    private String topic;
 
-Game
+   GET CardResponseDto
+
+   private String answer;
+ ******
+
+   PUT Game
 
 -GameCreateRequestDto
-    Long studentId;
-    List<CardDTO> cards;
+
+  private Integer numbersOfCards;
+
+- GamePlayRequestDto
+      private Long gameId;
+      private List<CardResponseDto> userAnswers;  // список ответов пользователя
+
 
 -GameCreateResponseDto
     Long id;
-    LocalDateTime startTime;
-    LocalDateTime endTime;
-    Integer score;
-    Student student;
-    List<CardDTO> cards;
+    private Integer numbersOfCards;
+    private Integer numbersOfRightAnswer;
+    private ResultStatus status;
 
 GameResponseDto
-    Long id;
-    Integer score;
-    Student student;
+    private Integer numbersOfCards;
+    private Integer numbersOfRightAnswer;
+    private ResultStatus status;
 
 ==================
 API

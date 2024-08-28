@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -18,16 +17,14 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private String studentName;
 
-    @OneToOne
-    @JoinColumn(name = "result_id")
-    private Result result;
+    private Integer numbersOfCards;
+    private Integer numbersOfRightAnswer;
+    private ResultStatus status;
+
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)

@@ -13,18 +13,16 @@ public class GameConverter {
 
     public Game fromCreateRequst(GameCreateRequestDto dto) {
         Game game = new Game();
-        game.setStudentName(dto.getStudentName());
+        game.setNumbersOfCards(dto.getNumbersOfCards());
         return game;
     }
 
     public GameCreateResponseDto toCreateDto(Game game) {
         GameCreateResponseDto dto = new GameCreateResponseDto();
         dto.setId(game.getId());
-        dto.setStartTime(game.getStartTime());
-        dto.setEndTime(game.getEndTime());
-        dto.setStudentName(game.getStudentName());
-
-        dto.setResultStatus(String.valueOf(game.getResult().getStatus()));
+        dto.setNumbersOfCards(game.getNumbersOfCards());
+        dto.setNumbersOfRightAnswer(game.getNumbersOfRightAnswer());
+        dto.setStatus(game.getStatus());
 
         return dto;
 
@@ -32,8 +30,9 @@ public class GameConverter {
 
     public GameResponseDto toDto(Game game) {
         GameResponseDto dto = new GameResponseDto();
-        dto.setStudentName(game.getStudentName());
-        dto.setResultStatus(String.valueOf(game.getResult().getStatus()));
+        dto.setNumbersOfCards(game.getNumbersOfCards());
+        dto.setNumbersOfRightAnswer(game.getNumbersOfRightAnswer());
+        dto.setStatus(game.getStatus());
         return dto;
 
     }

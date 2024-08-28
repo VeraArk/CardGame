@@ -1,4 +1,5 @@
 package org.example.myjavaproappgame.controller;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.myjavaproappgame.dto.studentDto.StudentCreateRequestDto;
 import org.example.myjavaproappgame.dto.studentDto.StudentCreateResponseDto;
@@ -18,16 +19,19 @@ public class StudentsController {
     private final StudentServiсe service;
 
     @PostMapping
-    public ResponseEntity<StudentCreateResponseDto> createStudent(@RequestBody StudentCreateRequestDto request){
+    public ResponseEntity<StudentCreateResponseDto> createStudent(@Valid @RequestBody StudentCreateRequestDto request){
         return new ResponseEntity<>(service.createStudent(request), HttpStatus.CREATED);
     }
-
 
     @GetMapping
     public ResponseEntity<List<StudentResponseDto>> findAll(){
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping ("/findByEmail/{email}")
+    public ResponseEntity<StudentResponseDto>findByEmail (@PathVariable String email){
+       return new ResponseEntity<>(service.findByEmail(email), HttpStatus.OK);
+    }
 
     @GetMapping("/findByLevel/{level}")
     public ResponseEntity<List<StudentResponseDto>> findByLevel(@PathVariable String level){
