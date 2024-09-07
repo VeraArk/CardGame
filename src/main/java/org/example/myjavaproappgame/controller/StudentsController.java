@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.myjavaproappgame.dto.studentDto.StudentCreateRequestDto;
 import org.example.myjavaproappgame.dto.studentDto.StudentCreateResponseDto;
 import org.example.myjavaproappgame.dto.studentDto.StudentResponseDto;
-import org.example.myjavaproappgame.service.StudentServiсe;
+import org.example.myjavaproappgame.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/students")
 public class StudentsController {
 
-    private final StudentServiсe service;
+    private final StudentService service;
 
     @PostMapping
     public ResponseEntity<StudentCreateResponseDto> createStudent(@Valid @RequestBody StudentCreateRequestDto request){

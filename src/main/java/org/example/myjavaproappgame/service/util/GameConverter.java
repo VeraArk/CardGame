@@ -11,11 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameConverter {
 
-    public Game fromCreateRequst(GameCreateRequestDto dto) {
-        Game game = new Game();
-        game.setNumbersOfCards(dto.getNumbersOfCards());
-        return game;
-    }
+//    public Game fromCreateRequst(GameCreateRequestDto dto) {
+//        Game game = new Game();
+//        game.setNumbersOfCards(dto.getNumbersOfCards());
+//        game.setLevel(dto.getLevel());
+//        return game;
+//    }
 
     public GameCreateResponseDto toCreateDto(Game game) {
         GameCreateResponseDto dto = new GameCreateResponseDto();
@@ -23,14 +24,13 @@ public class GameConverter {
         dto.setNumbersOfCards(game.getNumbersOfCards());
         dto.setNumbersOfRightAnswer(game.getNumbersOfRightAnswer());
         dto.setStatus(game.getStatus());
+        dto.setLevel(game.getLevel());
 
         return dto;
-
     }
 
     public GameResponseDto toDto(Game game) {
         GameResponseDto dto = new GameResponseDto();
-        dto.setNumbersOfCards(game.getNumbersOfCards());
         dto.setNumbersOfRightAnswer(game.getNumbersOfRightAnswer());
         dto.setStatus(game.getStatus());
         return dto;

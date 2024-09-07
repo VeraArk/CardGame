@@ -1,32 +1,25 @@
-Проект «Карточная игра для изучающих иностранный язык». Пользователь может создавать, просматривать и удалять
-карточки для изучения иностранных слов.
-Каждая карточка будет содержать слово на изучаемом языке, его перевод и тему.
+Проект «Карточная игра для изучающих иностранный язык». Пользователь может создавать и выбирать карточки для игры.
+Он определяет уровень и тему игры, а также количество карт, которые будут задействованы в игре. Во время игры
+он отвечает на вопросы. По завершению получает результат (статус и число верных ответов).
+Каждая карточка будет содержать слово на изучаемом языке, его перевод, уровень и тему.
 
-1. Обеспечить создание и хранение карточек для изучения иностраннх слов
+**Функциональность**
+Student
+-создание студента.
+-поск информации (byEmail, byLevel)
+-хранение информации о результатах его игр.
 
+Card
+- создание отдельных карт
+- созданія списка карточек в рамках одной игры (список карточек для конкретной игры)
+- поиск карточек (byLevel, byTopic, byLevelAndTopic)
 
-2. Обеспечить:
--  создание  списка карточек в рамках одной игры (список карточек для конкретной игры)
--  хранение списка карточек в общем  репозитории
-- хранение информации об игроках (идентификаия и история результатов игр)
-- хранение списка карточек, созданных для отдельной игры (коллекция списков карточек для конкретных игр)
+Game
 
-3. Запросы:
-для карточек:
-- передать все карточки.
-- вернуть вернуть карточки конкретной игры.
-- вернуть все карточки по теме.
-- вернуть результаты игры.
-- вернуть все результаты всех игры конкретного игрока
+- создание игры ( с использованием studentID и gameCreateRequestDto)
+- обработка листа ответов студента
+-завершение игры и возвращение результатов (статус и число верных ответов)
 
-для студентов:
-- создание и редактирование игрока.
-- вернуть весь список игрков.
-- вернуть список игроков по упределенному уровню
-
-для игры :
-- показывать созданные для игры карточки.
-- получить результат
 
 Entity:
 
@@ -59,10 +52,12 @@ Game
 
        Long id;
 
-       private Integer numbersOfCards;
-       private Integer numbersOfRightAnswer;
-       private ResultStatus status;
-
+       Integer numbersOfCards;
+       Integer numbersOfRightAnswer;
+       ResultStatus status;
+       String topic;
+       Student student;
+       List<Card> cards;
 
 ==================
 
@@ -71,45 +66,68 @@ API
 
   CardCreateRequestDto
 
-     private String question;
-     private String answer;
-     private String level;
-     private String topic;
-
+     String question;
+     String answer;
+     String level;
+     String topic;
 
 
   CardCreateResponseDto
 
-    private Long id;
-    private String question;
-    private String answer;
-    private String level;
-    private String topic;
+    Long id;
+    String question;
+    String answer;
+    String level;
+    String topic;
 
-   GET CardResponseDto
+   GET CardResponseGameDto
 
+   Long id
    private String answer;
  ******
 
-   PUT Game
+ StudentCreateRequestDto
+
+      String name;
+      String email;
+      String level;
+
+  StudentCreateResponseDto {
+
+     Long id;
+     String email;
+     String name;
+     String level;
+
+ StudentResponseDto {
+
+    String name;
+    String email;
+    String level;
+
+
+************
 
 -GameCreateRequestDto
 
-  private Integer numbersOfCards;
-
-- GamePlayRequestDto
-      private Long gameId;
-      private List<CardResponseDto> userAnswers;  // список ответов пользователя
+ Integer numbersOfCards;
+  String level;
+  String topic;
 
 
 -GameCreateResponseDto
     Long id;
-    private Integer numbersOfCards;
-    private Integer numbersOfRightAnswer;
-    private ResultStatus status;
+    Integer numbersOfCards;
+    Integer numbersOfRightAnswer;
+    ResultStatus status;
+    String level;
 
-GameResponseDto
-    private Integer numbersOfCards;
+- GamePlayRequestDto
+          Long gameId;
+         List<CardResponseDto> userAnswers;  // список ответов пользователя
+
+- GameResponseDto
+
     private Integer numbersOfRightAnswer;
     private ResultStatus status;
 

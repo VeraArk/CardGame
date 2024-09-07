@@ -2,6 +2,7 @@ package org.example.myjavaproappgame.dto.studentDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +24,7 @@ public class StudentCreateRequestDto {
     private String email;
 
     @NotBlank (message = "Password must be not blank")
-    @Size (min =6, message = "Password length must be from 6 character")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*_]){8,}$", message = "Password length must be from 8 character")
     private String password;
 
 }

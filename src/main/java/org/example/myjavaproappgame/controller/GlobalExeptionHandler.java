@@ -8,10 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
+@ControllerAdvice
 public class GlobalExeptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
@@ -29,7 +31,6 @@ public class GlobalExeptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    ///??????????? какой іменно імпортіровать
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> handlerConstraintViolationException(ConstraintViolationException exception){
         StringBuilder responseMessage = new StringBuilder();

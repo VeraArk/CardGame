@@ -1,6 +1,7 @@
 package org.example.myjavaproappgame.service;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.myjavaproappgame.dto.studentDto.StudentCreateRequestDto;
@@ -12,6 +13,7 @@ import org.example.myjavaproappgame.service.exception.AlreadyExistException;
 import org.example.myjavaproappgame.service.exception.NotFoundException;
 import org.example.myjavaproappgame.service.util.StudentConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,14 +22,14 @@ import java.util.stream.Collectors;
 @Service
 @Data
 @RequiredArgsConstructor
-public class StudentServiсe {
+public class StudentService {
 
     private final StudentRepository repository;
     private final StudentConverter converter;
 
 
     @Transactional
-    public StudentCreateResponseDto createStudent(StudentCreateRequestDto request) {
+    public StudentCreateResponseDto createStudent( StudentCreateRequestDto request) {
 
         if (repository.findByEmail(request.getEmail()).isEmpty()) {
             Student newStudent = converter.fromDto(request);

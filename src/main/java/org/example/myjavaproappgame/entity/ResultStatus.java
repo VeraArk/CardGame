@@ -4,7 +4,8 @@ public enum ResultStatus {
 
     EXCELLENT,
     GOOD,
-    NOT_BAD,
-    LEARN_MORE
+    SATISFACTORY,
+    POOR,
+    IN_PROGRESS
 
 }

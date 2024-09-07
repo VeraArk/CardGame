@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @Data
 @RequiredArgsConstructor
-public class CardServiсe {
+public class CardService {
 
     private final CardRepository repository;
     private final CardConverter converter;
@@ -68,5 +68,21 @@ public class CardServiсe {
             throw new NotFoundException("No cards found with the topic: " + topic);
         }
     }
+
+    public List<Card> findByLevelAndTopic (Integer numberOfCards, String topic, String level) {
+
+        List<Card> cards = repository.findAll().stream()
+                .filter(card-> card.getTopic().equals(topic) && card.getLevel().equals(level))
+                .limit(numberOfCards)
+                .collect(Collectors.toList());
+        if (!cards.isEmpty()) {
+            return cards;
+        } else {
+            throw new NotFoundException("No cards found with the topic: " + topic + "or level" + level);
+        }
+    }
 }
+
+
+
 

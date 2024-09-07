@@ -1,12 +1,18 @@
 package org.example.myjavaproappgame.dto.gameDto;
-
-import org.example.myjavaproappgame.dto.cardDto.CardResponseDto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.example.myjavaproappgame.dto.cardDto.CardResponseGameDto;
 
 import java.util.List;
 
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GamePlayRequestDto {
 
     private Long gameId;
-    private List<CardResponseDto> userAnswers;  // список ответов пользователя
+    private List<CardResponseGameDto> userAnswers; // список ответов пользователя
 
 }

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.myjavaproappgame.dto.cardDto.CardCreateRequestDto;
 import org.example.myjavaproappgame.dto.cardDto.CardCreateResponseDto;
 import org.example.myjavaproappgame.dto.cardDto.CardResponseDto;
-import org.example.myjavaproappgame.service.CardServiсe;
+import org.example.myjavaproappgame.service.CardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/cards")
 public class CardsController {
-    private final CardServiсe service;
+    private final CardService service;
 
     @PostMapping
     public ResponseEntity<CardCreateResponseDto> createNewCard(@Valid @RequestBody CardCreateRequestDto request) {
@@ -38,5 +38,7 @@ public class CardsController {
     public ResponseEntity<List<CardResponseDto>> findByTopic(@PathVariable String topic) {
         return new ResponseEntity<>(service.findByTopic(topic), HttpStatus.OK);
     }
+
+
 
 }

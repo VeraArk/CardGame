@@ -10,7 +10,6 @@ import org.example.myjavaproappgame.entity.ResultStatus;
 @NoArgsConstructor
 public class GameResponseDto {
 
-    private Integer numbersOfCards;
     private Integer numbersOfRightAnswer;
     private ResultStatus status;
 }
