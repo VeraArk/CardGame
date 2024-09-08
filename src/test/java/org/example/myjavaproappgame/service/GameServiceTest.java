@@ -1,6 +1,6 @@
 package org.example.myjavaproappgame.service;
 
-import org.example.myjavaproappgame.dto.cardDto.CardResponseGameDto;
+import org.example.myjavaproappgame.dto.cardDto.CardRequstGameDto;
 import org.example.myjavaproappgame.dto.gameDto.GameCreateRequestDto;
 import org.example.myjavaproappgame.dto.gameDto.GameCreateResponseDto;
 import org.example.myjavaproappgame.dto.gameDto.GamePlayRequestDto;
@@ -49,7 +49,7 @@ class GameServiceTest {
     private GamePlayRequestDto gamePlayRequestDto;
     private GameResponseDto gameResponseDto;
 
-    private CardResponseGameDto userAnswer;
+    private CardRequstGameDto cardRequstGameDto;
     private Student student;
     private Card card;
     private Card card2;
@@ -59,7 +59,7 @@ class GameServiceTest {
     @BeforeEach
     void setUp() {
         requestDto = new GameCreateRequestDto();
-        requestDto.setNumbersOfCards(2);
+        requestDto.setNumberOfCards(2);
         requestDto.setTopic("animal");
         requestDto.setLevel("A2");
 
@@ -81,10 +81,13 @@ class GameServiceTest {
         game = new Game();
         game.setId(1L);
         game.setStudent(student);
-        game.setNumbersOfCards(5);
-        game.setNumbersOfRightAnswer(5);
+        game.setNumberOfCards(5);
+        game.setNumberOfRightAnswer(5);
         game.setLevel("A2");
         game.setStatus(ResultStatus.IN_PROGRESS);
+
+   //     when(gameRepository.findById(game.getId())).thenReturn(Optional.of(game));
+//        when(cardRepository.findById(card.getId())).thenReturn(Optional.of(card));
 
     }
 
@@ -94,12 +97,13 @@ class GameServiceTest {
         // находім студента
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
+
         // вызываем с помощью мок cardService для возвращения списка карточек
-        when(cardService.findByLevelAndTopic(requestDto.getNumbersOfCards(), requestDto.getLevel(), requestDto.getTopic()))
+        when(cardService.findByLevelAndTopic(requestDto.getNumberOfCards(), requestDto.getLevel(), requestDto.getTopic()))
                 .thenReturn(List.of(card));
 
         // сохранение игру и возвращаем тот же объект game
-        when(gameRepository.save(any(Game.class))).thenReturn(game);
+       when(gameRepository.save(any(Game.class))).thenReturn(game);
 
         //Конвертіруем игру в DTO
         when(gameConverter.toCreateDto(any(Game.class))).thenReturn(new GameCreateResponseDto());
@@ -119,20 +123,21 @@ class GameServiceTest {
 
     @Test
     public void testAnswerQuestion_correctAnswers() {
-        userAnswer = new CardResponseGameDto();
-        userAnswer.setId(6L);
-        userAnswer.setAnswer("собака");
 
-        gamePlayRequestDto.setUserAnswers(List.of(userAnswer));
+        when(gameRepository.findById(game.getId())).thenReturn(Optional.of(game));
+        when(cardRepository.findById(card.getId())).thenReturn(Optional.of(card));
 
-        when(gameRepository.findById(anyLong())).thenReturn(Optional.of(game));
-        when(cardRepository.findById(6L)).thenReturn(Optional.of(card));
+        cardRequstGameDto = new CardRequstGameDto();
+        cardRequstGameDto.setId(6L);
+        cardRequstGameDto.setAnswer("собака");
 
-        gameService.answerQuestion(gamePlayRequestDto);
+        boolean isCorrect= gameService.answerQuestion(game.getId(), cardRequstGameDto);
+
+        assertTrue(isCorrect);
 
         // Проверяем, что количество правильных ответов увеличилось.
         // изначально в сетап установлено пять правильных, плюс еще один
-        assertEquals(6, game.getNumbersOfRightAnswer());
+        assertEquals(6, game.getNumberOfRightAnswer());
 
         // Проверяем, что игра была сохранена
         verify(gameRepository).save(game);
@@ -141,37 +146,24 @@ class GameServiceTest {
     @Test
     public void testAnswerQuestion_incorrectAnswer() {
 
-        CardResponseGameDto userAnswer = new CardResponseGameDto();
-        userAnswer.setId(card2.getId());
-        userAnswer.setAnswer("wrong_answer");
-        gamePlayRequestDto.setUserAnswers(List.of(userAnswer));
+        when(gameRepository.findById(game.getId())).thenReturn(Optional.of(game));
+        when(cardRepository.findById(card.getId())).thenReturn(Optional.of(card));
 
-        game.setNumbersOfRightAnswer(0);
+        cardRequstGameDto = new CardRequstGameDto();
+        cardRequstGameDto.setId(6L);
+        cardRequstGameDto.setAnswer("бегемот");
 
-        when(gameRepository.findById(anyLong())).thenReturn(Optional.of(game));
-        when(cardRepository.findById(card2.getId())).thenReturn(Optional.of(card));
+        boolean isIncorrect = gameService.answerQuestion(game.getId(), cardRequstGameDto);
 
-        gameService.answerQuestion(gamePlayRequestDto);
-
-        assertEquals(0, game.getNumbersOfRightAnswer());
+        assertFalse(isIncorrect);
 
         verify(gameRepository).save(game);
     }
 
-    @Test
-    public void testAnswerQuestion_gameNotFound() {
-
-        gamePlayRequestDto.setGameId(game.getId());
-
-        when(gameRepository.findById(game.getId())).thenReturn(Optional.empty());
-
-        assertThrows(NotFoundException.class, () -> gameService.answerQuestion(gamePlayRequestDto));
-    }
 
     @Test
     public void testFinishGame_statusExcellent() {
-
-        when(gameRepository.findById(1L)).thenReturn(Optional.of(game));
+        when(gameRepository.findById(game.getId())).thenReturn(Optional.of(game));
 
         gameResponseDto = new GameResponseDto();
         when(gameConverter.toDto(game)).thenReturn(gameResponseDto);
@@ -186,12 +178,11 @@ class GameServiceTest {
 
     @Test
     public void testFinishGame_statusGood() {
-        Game game = new Game();
-        game.setId(1L);
-        game.setNumbersOfRightAnswer(4);
-        game.setNumbersOfCards(5);
 
-        when(gameRepository.findById(1L)).thenReturn(Optional.of(game));
+        game.setNumberOfRightAnswer(4);
+        game.setNumberOfCards(5);
+
+        when(gameRepository.findById(game.getId())).thenReturn(Optional.of(game));
 
         GameResponseDto responseDto = new GameResponseDto();
         when(gameConverter.toDto(game)).thenReturn(responseDto);
@@ -205,13 +196,11 @@ class GameServiceTest {
 
     @Test
     public void testFinishGame_statusSatisfactory() {
-        // Подготовка данных
-        Game game = new Game();
-        game.setId(1L);
-        game.setNumbersOfRightAnswer(3);
-        game.setNumbersOfCards(5);
 
-        when(gameRepository.findById(1L)).thenReturn(Optional.of(game));
+        game.setNumberOfRightAnswer(3);
+        game.setNumberOfCards(5);
+
+       when(gameRepository.findById(game.getId())).thenReturn(Optional.of(game));
 
         GameResponseDto responseDto = new GameResponseDto();
         when(gameConverter.toDto(game)).thenReturn(responseDto);
@@ -227,11 +216,9 @@ class GameServiceTest {
 
     @Test
     public void testFinishGame_statusPoor() {
-        // Подготовка данных
-        Game game = new Game();
-        game.setId(1L);
-        game.setNumbersOfRightAnswer(2);
-        game.setNumbersOfCards(5);
+
+        game.setNumberOfRightAnswer(2);
+        game.setNumberOfCards(5);
 
         when(gameRepository.findById(1L)).thenReturn(Optional.of(game));
 

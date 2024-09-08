@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CardResponseGameDto {
+public class CardRequstGameDto {
     private Long id;
     private String answer;
 }

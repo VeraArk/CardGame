@@ -2,7 +2,7 @@ package org.example.myjavaproappgame.dto.gameDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.myjavaproappgame.dto.cardDto.CardResponseGameDto;
+import org.example.myjavaproappgame.dto.cardDto.CardRequstGameDto;
 
 import java.util.List;
 
@@ -13,6 +13,6 @@ import java.util.List;
 public class GamePlayRequestDto {
 
     private Long gameId;
-    private List<CardResponseGameDto> userAnswers; // список ответов пользователя
+    private List<CardRequstGameDto> userAnswers; // список ответов пользователя
 
 }

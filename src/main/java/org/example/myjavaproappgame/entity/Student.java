@@ -2,10 +2,7 @@ package org.example.myjavaproappgame.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,8 +20,7 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotBlank(message = "Student name must be not blank")
-    @Pattern(regexp = "\\d+", message = "Id can contain only digital")
+    @Min(value=1)
     private Long id;
 
     @NotBlank(message = "Student name must be not blank")

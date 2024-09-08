@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class CardCreateResponseDto {
 
     private Long id;
+
     @NotBlank
     @Size(min =3, max =15, message = "Question length must be between from 3 to 15 character")
     private String question;

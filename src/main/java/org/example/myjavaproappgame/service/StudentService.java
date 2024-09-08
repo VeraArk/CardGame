@@ -29,7 +29,7 @@ public class StudentService {
 
 
     @Transactional
-    public StudentCreateResponseDto createStudent( StudentCreateRequestDto request) {
+    public StudentCreateResponseDto createStudent(StudentCreateRequestDto request) {
 
         if (repository.findByEmail(request.getEmail()).isEmpty()) {
             Student newStudent = converter.fromDto(request);

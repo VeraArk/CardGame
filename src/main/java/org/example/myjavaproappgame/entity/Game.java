@@ -2,9 +2,7 @@ package org.example.myjavaproappgame.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,14 +21,13 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Field \"Number of cards\" must be not blank")
-    @Pattern(regexp = "\\d+", message = "Field \"Numbers of cards\" can contain only digital")
-    @Size(min =1, max =2)
-    private Integer numbersOfCards; // Количество карточек для игры
+    @Min(value=1)
+    @Max(value=50)
+    private Integer numberOfCards; // Количество карточек для игры
 
-    @Pattern(regexp = "[0-9]+")
-    @Size(min =1, max =2)
-    private Integer numbersOfRightAnswer = 0; // Количество правильных ответов
+    @Min(value=0)
+    @Max(value=50)
+    private Integer numberOfRightAnswer = 0; // Количество правильных ответов
 
     private ResultStatus status; // Статус игры
 

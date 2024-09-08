@@ -27,13 +27,13 @@ public class GameController {
     // во время игры пользователь взаимодействует с интерфейсом. Когда все ответы собраны в лист GamePlayRequestDto,
     // вызывается метод контроллера
 
-    // отправляет лист ответов студента в метод answerQuestion()
-    //toDO нужна ли валидация ответов студента?!
-    @PostMapping("/answer")
-    public ResponseEntity<Void> answerQuestion(@RequestBody GamePlayRequestDto requestDto) {
-        gameService.answerQuestion(requestDto);
-        return ResponseEntity.ok().build();
-    }
+//    // отправляет лист ответов студента в метод answerQuestion()
+//    //toDO нужна ли валидация ответов студента?!
+//    @PostMapping("/answer")
+//    public ResponseEntity<Void> answerQuestion(@RequestBody GamePlayRequestDto requestDto) {
+//        gameService.answerQuestion(requestDto);
+//        return ResponseEntity.ok().build();
+//    }
 
     // возвращает результат игры - статус
     @GetMapping("/finish")

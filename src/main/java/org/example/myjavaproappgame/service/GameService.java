@@ -3,10 +3,9 @@ package org.example.myjavaproappgame.service;
 import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.myjavaproappgame.dto.cardDto.CardResponseGameDto;
+import org.example.myjavaproappgame.dto.cardDto.CardRequstGameDto;
 import org.example.myjavaproappgame.dto.gameDto.GameCreateRequestDto;
 import org.example.myjavaproappgame.dto.gameDto.GameCreateResponseDto;
-import org.example.myjavaproappgame.dto.gameDto.GamePlayRequestDto;
 import org.example.myjavaproappgame.dto.gameDto.GameResponseDto;
 import org.example.myjavaproappgame.entity.Card;
 import org.example.myjavaproappgame.entity.Game;
@@ -39,11 +38,11 @@ public class GameService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new NotFoundException("Student not found"));
 
-        List<Card> selectedCards = cardService.findByLevelAndTopic(requestDto.getNumbersOfCards(), requestDto.getLevel(), requestDto.getTopic());
+        List<Card> selectedCards = cardService.findByLevelAndTopic(requestDto.getNumberOfCards(), requestDto.getLevel(), requestDto.getTopic());
 
         Game game = new Game();
         game.setStudent(student);
-        game.setNumbersOfCards(requestDto.getNumbersOfCards());
+        game.setNumberOfCards(requestDto.getNumberOfCards());
         game.setLevel(requestDto.getLevel());
         game.setStatus(ResultStatus.IN_PROGRESS);
         game.setCards(selectedCards);
@@ -52,25 +51,26 @@ public class GameService {
         game = gameRepository.save(game);
 
         // Возвращаем DTO для ответа
-       return gameConverter.toCreateDto(game);
+        return gameConverter.toCreateDto(game);
     }
 
+    // отвечаем по одной карточке
     @Transactional
-    public void answerQuestion(GamePlayRequestDto requestDto) {
-        Game game = gameRepository.findById(requestDto.getGameId())
+    public boolean answerQuestion(Long gameID, CardRequstGameDto cardRequstGameDto) {
+        Game game = gameRepository.findById(gameID)
                 .orElseThrow(() -> new NotFoundException("Game is not found"));
 
-        for (CardResponseGameDto cardDto : requestDto.getUserAnswers()) {
-            Card card = cardRepository.findById(cardDto.getId())
-                    .orElseThrow(() -> new NotFoundException("Card not found"));
+        Card card = cardRepository.findById(cardRequstGameDto.getId())
+                .orElseThrow(() -> new NotFoundException("Card not found"));
+        boolean isCorrect = card.getAnswer().equalsIgnoreCase(cardRequstGameDto.getAnswer());
 
-            // Проверяем ответ
-            if (card.getAnswer().equalsIgnoreCase(cardDto.getAnswer())) {
-                game.setNumbersOfRightAnswer(game.getNumbersOfRightAnswer() + 1);
-            }
+        if (isCorrect) {
+            game.setNumberOfRightAnswer(game.getNumberOfRightAnswer() + 1);
         }
 
         gameRepository.save(game);
+
+        return isCorrect;
     }
 
     @Transactional
@@ -78,8 +78,8 @@ public class GameService {
         Game currentGame = gameRepository.findById(gameId)
                 .orElseThrow(() -> new NotFoundException("Game not found"));
 
-        int correctAnswers = currentGame.getNumbersOfRightAnswer();
-        int totalQuestions = currentGame.getNumbersOfCards();
+        int correctAnswers = currentGame.getNumberOfRightAnswer();
+        int totalQuestions = currentGame.getNumberOfCards();
 
         if (correctAnswers == totalQuestions) {
             currentGame.setStatus(ResultStatus.EXCELLENT);

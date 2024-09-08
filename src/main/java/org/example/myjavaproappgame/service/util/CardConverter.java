@@ -3,7 +3,6 @@ package org.example.myjavaproappgame.service.util;
 import org.example.myjavaproappgame.dto.cardDto.CardCreateRequestDto;
 import org.example.myjavaproappgame.dto.cardDto.CardCreateResponseDto;
 import org.example.myjavaproappgame.dto.cardDto.CardResponseDto;
-import org.example.myjavaproappgame.dto.cardDto.CardResponseGameDto;
 import org.example.myjavaproappgame.entity.Card;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +23,6 @@ public class CardConverter {
 
     public CardResponseDto toDto (Card card){
         return new CardResponseDto(card.getId(), card.getQuestion(), card.getAnswer(), card.getLevel(), card.getTopic());
-    }
-
-    public CardResponseGameDto toGameDto (Card card){
-        return new CardResponseGameDto(card.getId(), card.getAnswer());
     }
 
 }
